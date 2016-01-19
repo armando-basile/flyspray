@@ -92,15 +92,13 @@ if (Req::val('do') =='pm' && Req::val('area')=='editgroup') {
 }
 
 if (!isset($project_id)) {
-    // Determine which project we want to see
-    if (($project_id = Cookie::val('flyspray_project')) == '') {
+        // Determine which project we want to see
         $project_id = $fs->prefs['default_project'];
-    }
-    $project_id = Req::val('project', Req::val('project_id', $project_id));
+        $project_id = Req::val('project', Req::val('project_id', $project_id));
+        # fix if an array of project_id is passed to the script
+        if(!is_int($project_id)){
+                $project_id=$fs->prefs['default_project'];
+        }
 }
 
 $proj = new Project($project_id);
-# no more project cookie!
-#$proj->setCookie();
-
-
